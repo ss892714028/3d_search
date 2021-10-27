@@ -32,7 +32,8 @@ class Encode:
         feat = list(transformer.get_vector(centers, corners, normals, neighbor_index).tolist())
         return feat / LA.norm(feat)
 
-    def prepare(self, path):
+    @staticmethod
+    def prepare(path):
         data = np.load(path)
         face = data['faces']
         neighbor_index = data['neighbors']

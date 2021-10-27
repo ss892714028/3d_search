@@ -43,6 +43,7 @@ def process(data_root, out_root, file_name):
         LOGGER.error(" Error with compressing off file: {}".format(e))
         sys.exit(1)
 
+
 def write_file(out_path, data):
     with open(out_path, 'w') as f:
         for x in data:
@@ -97,6 +98,7 @@ def run_batch(data_root, out_root):
         print(file_name)
         if file_name.endswith("off"):
             process(data_root=data_root, out_root=out_root, file_name=file_name)
+
 
 if __name__ == "__main__":
     main('/mnt/usersuccess/sida/bootcamp/solutions/3d_model_search/quick_deploy/server/src/ModelNet40')

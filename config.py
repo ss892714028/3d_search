@@ -1,5 +1,6 @@
 import os
 
+
 ############### Preprocess Configuration ###########
 SEARCH_FEATURE_PATH = 'search_feature'
 LOAD_FEATURE_PATH = 'load_feature'

@@ -69,6 +69,7 @@ if not os.path.exists(UPLOAD_PATH):
     os.makedirs(UPLOAD_PATH)
     LOGGER.info("mkdir the path:{} ".format(UPLOAD_PATH))
 
+
 # Define the interface to obtain raw pictures 
 @app.get('/data')
 def get_model(model_path):
@@ -91,9 +92,11 @@ def get_progress():
         LOGGER.error("upload image error: {}".format(e))
         return {'status': False, 'msg': e}, 400
 
+
 class Item(BaseModel):
     Table: Optional[str] = None
     File: str
+
 
 @app.post('/img/load')
 async def load_models(item: Item):
@@ -105,6 +108,7 @@ async def load_models(item: Item):
     except Exception as e:
         LOGGER.error(e)
         return {'status': False, 'msg': e}, 400
+
 
 @app.post('/img/search')
 async def search_images(model_path: str, table_name: str = None):
@@ -148,8 +152,6 @@ async def drop_tables(table_name: str = None):
     except Exception as e:
         LOGGER.error(e)
         return {'status': False, 'msg': e}, 400
-
-
 
 
 if __name__ == '__main__':
