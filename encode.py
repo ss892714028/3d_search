@@ -18,13 +18,19 @@ class Encode:
         return self.extract_fea(transformer, *data)
 
     def extract_fea(self, transformer, centers, corners, normals, neighbor_index):
-        centers = Variable(torch.cuda.FloatTensor(centers.cuda()))
-        corners = Variable(torch.cuda.FloatTensor(corners.cuda()))
-        normals = Variable(torch.cuda.FloatTensor(normals.cuda()))
-        neighbor_index = Variable(torch.cuda.LongTensor(neighbor_index.cuda()))
+        if torch.cuda.is_available():
+            centers = Variable(torch.cuda.FloatTensor(centers.cuda()))
+            corners = Variable(torch.cuda.FloatTensor(corners.cuda()))
+            normals = Variable(torch.cuda.FloatTensor(normals.cuda()))
+            neighbor_index = Variable(torch.cuda.LongTensor(neighbor_index.cuda()))
+        else:
+            centers = Variable(torch.FloatTensor(centers.cpu()))
+            corners = Variable(torch.FloatTensor(corners.cpu()))
+            normals = Variable(torch.FloatTensor(normals.cpu()))
+            neighbor_index = Variable(torch.LongTensor(neighbor_index.cpu()))
         # get vectors
         feat = list(transformer.get_vector(centers, corners, normals, neighbor_index).tolist())
-        return list(feat / LA.norm(feat))
+        return feat / LA.norm(feat)
 
     def prepare(self, path):
         data = np.load(path)
