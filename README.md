@@ -1,5 +1,7 @@
-# 3d_search
-Start a Milvus Server. See tutorial [here](https://milvus.io/docs/v2.0.0/install_standalone-docker.md).
+# Milvus3D
+
+
+Start a Milvus Server. See tutorial [Here](https://milvus.io/docs/v2.0.0/install_standalone-docker.md).
 
 Start MySQL.
 ```bash
@@ -19,10 +21,16 @@ Create two directories to store the pre-processed data for load and search respe
 mkdir search_features
 mkdir load_features
 ```
-Batch pre-process the data. Takes ~1.5 hrs with ModelNet40. This operation will first compress the 3d models to 1024 faces and then do certain pre-processing steps. load_features directory will be populated.
+Batch pre-process the data. Takes ~1.5 hrs with ModelNet40 (**You can skip this by downloading the pre-processed data directly, 
+see next step**). This operation will first compress the 3d models to 1024 faces and then do certain pre-processing steps. load_features directory will be populated.
 ```bash
 chmod +x preprocess.sh
 ./preprocess.sh true
+```
+**Only do this if you skipped the last step!!** Download the pre-processed data from Google Drive.
+```bash
+gdown "https://drive.google.com/uc?id=1XFonx5ubCSTzEQGvGkpX5LXgdAK3yHQX"
+tar -xvf load_feature.tar.gz
 ```
 Start the FASTAPI server
 ```bash

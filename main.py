@@ -1,31 +1,26 @@
-import subprocess
-import uvicorn
 import os
+from typing import Optional
+
+import torch
+import torch.nn as nn
+import uvicorn
 from diskcache import Cache
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI
+from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
-from encode import Encode
+
+from MeshNet import MeshNet
+from config import UPLOAD_PATH
+from config import WEIGHTS, CUDA_DEVICE
+from logs import LOGGER
 from milvus_helpers import MilvusHelper
 from mysql_helpers import MySQLHelper
-from config import UPLOAD_PATH
-from operations.load import do_load
-from operations.upload import do_upload
-from operations.search import do_search
 from operations.count import do_count
 from operations.drop import do_drop
-from logs import LOGGER
-from pydantic import BaseModel
-from typing import Optional
-from urllib.request import urlretrieve
-import torch
-from MeshNet import MeshNet
+from operations.load import do_load
+from operations.search import do_search
 from transform import Transformer
-import torch.nn as nn
-from config import WEIGHTS, CUDA_DEVICE
-import subprocess
-
-
 
 app = FastAPI()
 origins = ["*"]
@@ -75,6 +70,8 @@ Welcome to Milvus 3D! :)
 Author: Sida Shen                                                                            
 """
 )
+
+
 # Define the interface to obtain raw pictures 
 @app.get('/data')
 def get_model(model_path):
