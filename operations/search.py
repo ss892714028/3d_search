@@ -8,7 +8,6 @@ import subprocess
 import os
 
 
-
 def do_search(table_name, model_path, transformer, milvus_client, mysql_cli):
     try:
         if not table_name:
