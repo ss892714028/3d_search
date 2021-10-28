@@ -1,7 +1,7 @@
 import os
 from collections import deque
 import pymeshlab as ml
-from config import SEARCH_FEATURE_PATH, LOAD_FEATURE_PATH, UPLOAD_PATH
+from config import SEARCH_FEATURE_PATH, LOAD_FEATURE_PATH, UPLOAD_PATH, DATA_PATH
 import getopt
 import sys
 from logs import LOGGER
@@ -101,4 +101,4 @@ def run_batch(data_root, out_root):
 
 
 if __name__ == "__main__":
-    main('/mnt/usersuccess/sida/bootcamp/solutions/3d_model_search/quick_deploy/server/src/ModelNet40')
+    main(DATA_PATH)

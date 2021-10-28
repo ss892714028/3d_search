@@ -4,6 +4,7 @@ import os
 ############### Preprocess Configuration ###########
 SEARCH_FEATURE_PATH = 'search_feature'
 LOAD_FEATURE_PATH = 'load_feature'
+DATA_PATH = 'ModelNet40'
 ############### Milvus Configuration ###############
 MILVUS_HOST = os.getenv("MILVUS_HOST", "192.168.1.85")
 MILVUS_PORT = os.getenv("MILVUS_PORT", 19530)
@@ -31,5 +32,5 @@ MAX_FACES = 1024
 NUM_KERNEL = 64
 SIGMA = 0.2
 AGGREGATION_METHOD = 'Concat' # Concat/Max/Average
-WEIGHTS = '/Users/sida/Desktop/projects/3d/src/MeshNet_best_9192.pkl'
+WEIGHTS = '/Users/sida/Desktop/projects/3d/src/models/MeshNet_best_9192.pkl'
 CUDA_DEVICE = '0'

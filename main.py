@@ -25,6 +25,40 @@ import torch.nn as nn
 from config import WEIGHTS, CUDA_DEVICE
 import subprocess
 
+
+
+app = FastAPI()
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+
+)
+
+os.environ['CUDA_VISIBLE_DEVICES'] = CUDA_DEVICE
+
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+model = MeshNet(require_fea=False)
+model = nn.DataParallel(model)
+
+model.load_state_dict(torch.load(WEIGHTS, map_location=device))
+model.to(device)
+
+model.eval()
+transformer = Transformer(model)
+
+MILVUS_CLI = MilvusHelper()
+MYSQL_CLI = MySQLHelper()
+
+# Mkdir '/tmp/search-models'
+if not os.path.exists(UPLOAD_PATH):
+    os.makedirs(UPLOAD_PATH)
+    LOGGER.info("mkdir the path:{} ".format(UPLOAD_PATH))
+
 print(
 """
 $$\      $$\ $$\ $$\                                       $$$$$$\  $$$$$$$\  
@@ -41,35 +75,6 @@ Welcome to Milvus 3D! :)
 Author: Sida Shen                                                                            
 """
 )
-
-app = FastAPI()
-origins = ["*"]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-
-)
-os.environ['CUDA_VISIBLE_DEVICES'] = CUDA_DEVICE
-
-model = MeshNet(require_fea=False)
-model = nn.DataParallel(model)
-model.load_state_dict(torch.load(WEIGHTS))
-model.eval()
-transformer = Transformer(model)
-
-
-MILVUS_CLI = MilvusHelper()
-MYSQL_CLI = MySQLHelper()
-
-# Mkdir '/tmp/search-models'
-if not os.path.exists(UPLOAD_PATH):
-    os.makedirs(UPLOAD_PATH)
-    LOGGER.info("mkdir the path:{} ".format(UPLOAD_PATH))
-
-
 # Define the interface to obtain raw pictures 
 @app.get('/data')
 def get_model(model_path):
